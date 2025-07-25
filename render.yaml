@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: video-translator-app
+    name: app
     env: python
     buildCommand: "pip install -r requirements.txt"
     startCommand: "python app.py"
