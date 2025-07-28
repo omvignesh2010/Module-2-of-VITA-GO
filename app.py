@@ -6,16 +6,15 @@ from gtts import gTTS
 from deep_translator import GoogleTranslator  
 import ffmpeg
 import uuid
+import traceback
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/upload": {"origins": "*"}, r"/video/*": {"origins": "*"}})
 
 UPLOAD_FOLDER = "uploads"
 OUTPUT_FOLDER = "outputs"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
-
-
 
 @app.route('/upload', methods=['POST'])
 def upload():
@@ -47,14 +46,14 @@ def upload():
         result = model.transcribe(audio_path)
         original_text = result['text']
 
-        # ✅ Translate using deep_translator
+        # Translate using deep_translator
         translated_text = GoogleTranslator(source='auto', target=lang).translate(original_text)
 
         # Text to speech
         tts = gTTS(text=translated_text, lang=lang)
         tts.save(tts_path)
 
-        # Merge audio + original video
+        # Merge new audio with original video
         ffmpeg.output(
             ffmpeg.input(video_path).video,
             ffmpeg.input(tts_path).audio,
@@ -64,10 +63,13 @@ def upload():
             shortest=None
         ).run(overwrite_output=True)
 
-        video_url = f"http://localhost:5000/video/{output_filename}"
+        # Fix: return correct Render URL
+        video_url = f"{request.url_root}video/{output_filename}".replace("http://", "https://")
+
         return jsonify({"video_url": video_url})
 
     except Exception as e:
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
 @app.route('/video/<filename>')
