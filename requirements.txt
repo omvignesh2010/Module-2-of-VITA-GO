@@ -4,7 +4,7 @@ gunicorn
 pymongo
 bcrypt
 itsdangerous
-whisper
+openai-whisper
 torch
 ffmpeg-python
 gtts
