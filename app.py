@@ -15,10 +15,11 @@ OUTPUT_FOLDER = "outputs"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
-model = whisper.load_model("base")
+
 
 @app.route('/upload', methods=['POST'])
 def upload():
+    model = whisper.load_model("tiny")
     try:
         video = request.files['video']
         lang = request.form.get('lang')
