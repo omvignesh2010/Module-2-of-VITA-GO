@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import os
-import openai_whisper as whisper
+import whisper
 from gtts import gTTS
 from deep_translator import GoogleTranslator  
 import ffmpeg
@@ -74,4 +74,5 @@ def serve_video(filename):
     return send_from_directory(OUTPUT_FOLDER, filename)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
