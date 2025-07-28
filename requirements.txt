@@ -2,7 +2,6 @@ whisper
 gTTS
 ffmpeg-python
 googletrans==4.0.0rc1
-torch==2.0.1
 Flask==2.3.3
 torch==2.5.1
 torchvision==0.18.1
