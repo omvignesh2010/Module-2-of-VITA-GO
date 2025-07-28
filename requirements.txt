@@ -3,7 +3,7 @@ gTTS
 ffmpeg-python
 googletrans==4.0.0rc1
 Flask==2.3.3
-torch==2.5.1
+torch==2.6.0
 torchvision==0.21.0
 torchaudio==2.6.0
 numpy
