@@ -6,7 +6,6 @@ from gtts import gTTS
 from googletrans import Translator
 import ffmpeg
 import uuid
-
 app = Flask(__name__)
 CORS(app)  # Allow requests from frontend
 
